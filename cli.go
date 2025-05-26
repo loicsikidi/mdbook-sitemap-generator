@@ -66,7 +66,7 @@ func main() {
 		fmt.Println(string(out))
 	case *output != "":
 		if err := os.WriteFile(*output, out, 0644); err != nil {
-			fmt.Printf("Error writing to %q: %v\n", *output, err)
+			fmt.Printf("Error writing sitemap content to %q: %v\n", *output, err)
 			os.Exit(1)
 		}
 	}

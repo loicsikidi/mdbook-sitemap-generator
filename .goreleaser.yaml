@@ -1,0 +1,82 @@
+version: 2
+project_name: mdbook-sitemap-generator
+
+release:
+  draft: true
+  github:
+    owner: loicsikidi
+    name: mdbook-sitemap-generator
+  name_template: '{{.Tag}}'
+  footer: >-
+
+    ---
+
+    Released by [GoReleaser](https://github.com/goreleaser/goreleaser) .
+
+changelog:
+  sort: asc
+  filters:
+    exclude:
+      - "^docs:"
+  
+builds:
+  - id: "my-build"
+    env:
+      - CGO_ENABLED=0
+    goos:
+      - linux
+      - darwin
+      - windows
+    goarch:
+      - amd64
+      - arm64
+
+sboms:
+  - id: default
+    cmd: syft
+    env:
+      - SYFT_FILE_METADATA_CATALOGER_ENABLED=true
+    documents:
+      - '{{ .ProjectName }}_{{ .Version }}_{{ .Os }}_{{ .Arch }}{{ with .Arm }}v{{ . }}{{ end }}{{ with .Mips }}_{{ . }}{{ end }}{{ if not (eq .Amd64 "v1") }}{{ .Amd64 }}{{ end }}.spdx.sbom'
+    artifacts: binary
+    args:
+      - $artifact
+      - --file
+      - $document
+      - --output
+      - spdx-json
+
+archives:
+  - formats: [tar.gz]
+    # this name template makes the OS and Arch compatible with the results of `uname`.
+    name_template: >-
+      {{ .ProjectName }}_
+      {{- title .Os }}_
+      {{- if eq .Arch "amd64" }}x86_64
+      {{- else if eq .Arch "386" }}i386
+      {{- else }}{{ .Arch }}{{ end }}
+      {{- if .Arm }}v{{ .Arm }}{{ end }}
+    format_overrides:
+      - goos: windows
+        formats: [zip]
+
+snapshot:
+  version_template: '{{ .Version }}'
+
+checksum:
+  name_template: '{{ .ProjectName }}_{{ .Version }}_checksums.txt'
+  algorithm: sha256
+
+signs:
+  - id: binary-keyless
+    signature: "${artifact}-keyless.sig"
+    certificate: "${artifact}-keyless.pem"
+    cmd: cosign
+    args: ["sign-blob", "--output-signature", "${artifact}-keyless.sig", "--output-certificate", "${artifact}-keyless.pem", "${artifact}", "--yes"]
+    artifacts: binary
+  - id: checksum-keyless
+    signature: "${artifact}-keyless.sig"
+    certificate: "${artifact}-keyless.pem"
+    cmd: cosign
+    args: ["sign-blob", "--output-signature", "${artifact}-keyless.sig", "--output-certificate", "${artifact}-keyless.pem", "${artifact}", "--yes"]
+    artifacts: checksum

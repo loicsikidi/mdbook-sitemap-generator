@@ -4,11 +4,13 @@ import (
 	"errors"
 	"flag"
 	"fmt"
+	"net/url"
 	"os"
 	"path"
 	"strings"
 
 	"github.com/BurntSushi/toml"
+	"github.com/imjasonh/version"
 )
 
 const (
@@ -22,21 +24,33 @@ type config struct {
 }
 
 var (
-	domain = flag.String("domain", "", "Domain of the target (e.g., https://example.com) [required]")
-	output = flag.String("output", "", "File to write the output to, defaults to stdout [optional]")
+	domain   = flag.String("domain", "", "Domain of the target (e.g., https://example.com) [required]")
+	output   = flag.String("output", "", "File to write the output to, defaults to stdout [optional]")
+	_version = flag.Bool("version", false, "Print the version of the CLI [optional]")
 )
 
 func main() {
 	flag.Parse()
+
+	if *_version {
+		fmt.Println(version.Get())
+		os.Exit(0)
+	}
 
 	if *domain == "" {
 		flag.Usage()
 		return
 	}
 
-	if strings.HasPrefix(*domain, "http") {
+	u, err := url.Parse(*domain)
+	if err != nil {
+		fmt.Printf("Error parsing domain %q: %v\n", *domain, err)
+		os.Exit(1)
+	}
+
+	if u.Scheme == "http" {
 		*domain = strings.Replace(*domain, "http", "https", 1)
-	} else if !strings.HasPrefix(*domain, "https") {
+	} else if u.Scheme != "https" {
 		*domain = "https://" + *domain
 	}
 

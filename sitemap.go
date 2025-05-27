@@ -12,7 +12,7 @@ type Url struct {
 
 type Sitemap struct {
 	XMLName string `xml:"urlset"`
-	Urls    []Url  `xml:"urls"`
+	Urls    []Url  `xml:"url"`
 	Xmlns   string `xml:"xmlns,attr"`
 }
 

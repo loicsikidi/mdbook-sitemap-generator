@@ -161,12 +161,14 @@ func getDomainFromPluginContext(ctx *mdbook.RenderContext) (string, error) {
 }
 
 func getPaths(options *options) ([]string, error) {
-	if options.mode == standalone {
+	switch options.mode {
+	case standalone:
 		return getPathsFromStandalone()
-	} else if options.mode == plugin {
+	case plugin:
 		return getPathsFromPluginContext(options.pluginCtx)
+	default:
+		return nil, fmt.Errorf("unknown mode: %s", options.mode)
 	}
-	return nil, fmt.Errorf("unsupported mode: %q", options.mode)
 }
 
 func getPathsFromStandalone() ([]string, error) {
@@ -174,13 +176,13 @@ func getPathsFromStandalone() ([]string, error) {
 	if _, err := os.Stat(getbookConfigPath()); err == nil {
 		cfg := new(bookConfig)
 		if _, err := toml.DecodeFile(getbookConfigPath(), cfg); err != nil {
-			return nil, fmt.Errorf("error reading %q: %v\n", BOOK_TOML, err)
+			return nil, fmt.Errorf("error reading %q: %v", BOOK_TOML, err)
 		}
 		targetDir = cfg.Book.Src
 	}
 	paths, err := findPaths(targetDir, "")
 	if err != nil {
-		return nil, fmt.Errorf("error reading %q directory: %v\n", targetDir, errors.Unwrap(err))
+		return nil, fmt.Errorf("error reading %q directory: %v", targetDir, errors.Unwrap(err))
 	}
 	return paths, nil
 }

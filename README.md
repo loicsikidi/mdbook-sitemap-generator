@@ -63,4 +63,5 @@ book  book.toml  src
 $ mdbook-sitemap-generator --domain docs.example.com --output book/sitemap.xml
 ```
 
-> TIP: the utility will automatically detect the book's root directory by parsing `book.toml` and fallback to `src` if it find nothing.
+> [!TIP]
+> The utility will automatically detect the book's root directory by parsing `book.toml` and fallback to `src` if it find nothing.

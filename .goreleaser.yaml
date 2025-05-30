@@ -68,12 +68,6 @@ checksum:
   algorithm: sha256
 
 signs:
-  - id: binary-keyless
-    signature: "${artifact}-keyless.sig"
-    certificate: "${artifact}-keyless.pem"
-    cmd: cosign
-    args: ["sign-blob", "--output-signature", "${artifact}-keyless.sig", "--output-certificate", "${artifact}-keyless.pem", "${artifact}", "--yes"]
-    artifacts: binary
   - id: checksum-keyless
     signature: "${artifact}-keyless.sig"
     certificate: "${artifact}-keyless.pem"

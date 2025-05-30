@@ -57,7 +57,7 @@ domain = "docs.example.com"
 ```
 
 > [!NOTE]
-> `sitemap.xml` file which will be stored in `./book/sitemap-generator` directory.
+> `sitemap.xml` file will be stored in `./book/sitemap-generator` directory.
 
 ### Used as a standalone utility
 

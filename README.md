@@ -35,6 +35,8 @@ cosign verify-blob --certificate keyless.pem --signature keyless.sig checksums.t
 # output: Verified OK
 ```
 
+Once the verification is successful, you can use the `checksums.txt` file to verify the integrity of each artefact using `sha256sum` command.
+
 ## Usage
 
 The utility should be run from the root of the project.

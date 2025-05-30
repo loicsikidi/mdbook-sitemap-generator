@@ -82,7 +82,7 @@ For example:
 ```
 $ ls
 book  book.toml  src
-$ mdboo@k-sitemap-generator --domain docs.example.com --output book/sitemap.xml
+$ mdbook-sitemap-generator --domain docs.example.com --output book/sitemap.xml
 ```
 
 > [!TIP]

@@ -1,6 +1,7 @@
 # mdbook-sitemap-generator
 
-> INFO: this is a fork of the original [mdbook-sitemap-generator](https://github.com/rxdn/mdbook-sitemap-generator) which is no longer maintained.
+> [!NOTE]
+> This project is a fork of the original [mdbook-sitemap-generator](https://github.com/rxdn/mdbook-sitemap-generator) which is no longer maintained.
 > Contrary to the original, this version is written in Golang.
 
 ## What is this?

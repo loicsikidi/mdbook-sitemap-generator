@@ -13,6 +13,27 @@ Binaries are distributed on the [Github Releases Page](https://github.com/loicsi
 
 It is also possible to install this utility via go, using `go install github.com/loicsikidi/mdbook-sitemap-generator@latest`.
 
+### Verify binaries integrity using cosign
+
+To verify the integrity of the downloaded binaries, you can use the provided checksums in [Github Releases Page](https://github.com/loicsikidi/mdbook-sitemap-generator/releases).
+
+In order to verify the integrity and trustworthiness of the later, you can use the `cosign` tool, which is a part of the [sigstore project](https://sigstore.dev/).
+
+Run the following commands to do so:
+
+```bash
+version=1.0.1 # replace with the version you want to verify
+
+curl -sSL "https://github.com/loicsikidi/mdbook-sitemap-generator/releases/download/v${version}/mdbook-sitemap-generator_${version}_checksums.txt-keyless.pem" -o keyless.pem
+curl -sSL "https://github.com/loicsikidi/mdbook-sitemap-generator/releases/download/v${version}/mdbook-sitemap-generator_${version}_checksums.txt-keyless.sig" -o keyless.sig
+curl -sSL "https://github.com/loicsikidi/mdbook-sitemap-generator/releases/download/v${version}/mdbook-sitemap-generator_${version}_checksums.txt" -o checksums.txt
+
+cosign verify-blob --certificate keyless.pem --signature keyless.sig checksums.txt \
+--certificate-identity "https://github.com/loicsikidi/mdbook-sitemap-generator/.github/workflows/release.yaml@refs/tags/v${version}" \
+--certificate-oidc-issuer https://token.actions.githubusercontent.com
+# output: Verified OK
+```
+
 ## Usage
 
 The utility should be run from the root of the project.

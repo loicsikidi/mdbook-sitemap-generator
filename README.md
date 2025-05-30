@@ -39,11 +39,33 @@ Once the verification is successful, you can use the `checksums.txt` file to ver
 
 ## Usage
 
+This project can be used as a mdbook plugin, or as a standalone utility.
+
+### Used as a mdbook plugin
+
+This utility can be used as a plugin for mdbook, which will automatically generate a sitemap.xml file during the build process (i.e., `mdbook build`).
+
+#### Configuration
+
+To use this utility as a plugin, you need to add the following configuration to your `book.toml` file:
+
+```toml
+[output.sitemap-generator]
+# Domain of the site, used to generate absolute URLs
+# This field is REQUIRED
+domain = "docs.example.com"
+```
+
+> [!NOTE]
+> `sitemap.xml` file which will be stored in `./book/sitemap-generator` directory.
+
+### Used as a standalone utility
+
 The utility should be run from the root of the project.
 
 ```
 USAGE:
-    mdbook-sitemap-generator [OPTIONS] --domain <DOMAIN>
+    mdbook-sitemap-generator --domain <DOMAIN> [OPTIONS]
 
 OPTIONS:
     --domain <DOMAIN>
@@ -60,8 +82,8 @@ For example:
 ```
 $ ls
 book  book.toml  src
-$ mdbook-sitemap-generator --domain docs.example.com --output book/sitemap.xml
+$ mdboo@k-sitemap-generator --domain docs.example.com --output book/sitemap.xml
 ```
 
 > [!TIP]
-> The utility will automatically detect the book's root directory by parsing `book.toml` and fallback to `src` if it find nothing.
+> The utility will automatically detect the book's root directory by parsing `book.toml` and fallback to `src` if it finds nothing.

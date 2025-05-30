@@ -2,3 +2,7 @@ github.com/BurntSushi/toml v1.5.0 h1:W5quZX/G/csjUnuI8SUYlsHs9M38FC7znL0lIO+DvMg
 github.com/BurntSushi/toml v1.5.0/go.mod h1:ukJfTF/6rtPPRCnwkur4qwRxa8vTRFBF0uk2lLoLwho=
 github.com/imjasonh/version v0.0.1 h1:SryASrG3zDTBqt6XJpZYdwqlHwtjgbgSL+ocN3T4vyE=
 github.com/imjasonh/version v0.0.1/go.mod h1:ZAxW5faGZb3dfICmLrjaZTPwjputPxSIhXG1xlCKcGI=
+github.com/ngyewch/mdbook-plugin v0.1.0 h1:im22qZSor5EaJhM+3BtvcC9DCufYg4xqBfbhveVEwyg=
+github.com/ngyewch/mdbook-plugin v0.1.0/go.mod h1:irFYwlojZV+4k6Snoh5Sx1Eqb6RtQazS5IiERzC7znY=
+github.com/yuin/goldmark v1.7.8 h1:iERMLn0/QJeHFhxSt3p6PeN9mGnvIKSpG9YYorDMnic=
+github.com/yuin/goldmark v1.7.8/go.mod h1:uzxRWxtg69N339t3louHJ7+O03ezfj6PlliRlaOzY1E=

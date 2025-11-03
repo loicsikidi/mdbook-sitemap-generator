@@ -14,8 +14,8 @@ env:
   GO_VERSION: '1.24.x'
 
 jobs:
-  unit-tests:
-    name: Run unit tests
+  quality-checks:
+    name: Run multiple tests (eg. go tests, pre-commit hooks)
     permissions:
       contents: read
     runs-on: ${{ matrix.os }}
@@ -36,6 +36,8 @@ jobs:
           github_access_token: ${{ secrets.GITHUB_TOKEN }}
       - name: Run Go tests
         run: nix-shell --run "go test -v ./..."
+      - name: Run pre-commit hooks
+        run: nix-shell --run "pre-commit run --all-files"
 
   golangci:
     name: lint

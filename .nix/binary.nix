@@ -1,4 +1,4 @@
-{ pkgs }:
+{pkgs}:
 pkgs.buildGo124Module rec {
   name = "mdbook-sitemap-generator";
   src = pkgs.lib.cleanSource ../.;

@@ -11,7 +11,7 @@ import (
 
 	"github.com/BurntSushi/toml"
 	"github.com/imjasonh/version"
-	mdbook "github.com/ngyewch/mdbook-plugin"
+	mdbook "github.com/loicsikidi/mdbook-plugin"
 )
 
 type mode string
@@ -209,10 +209,10 @@ func findPaths(directory, currentPath string) ([]string, error) {
 }
 
 func getPathsFromPluginContext(ctx *mdbook.RenderContext) ([]string, error) {
-	if ctx == nil || ctx.Book == nil || ctx.Book.Sections == nil {
-		return nil, fmt.Errorf("invalid plugin context: missing Book or Sections")
+	if ctx == nil || ctx.Book == nil || len(ctx.Book.GetItems()) == 0 {
+		return nil, fmt.Errorf("invalid plugin context: missing Book or Items")
 	}
-	paths := findPathsFromPluginContext(ctx.Book.Sections)
+	paths := findPathsFromPluginContext(ctx.Book.GetItems())
 	return paths, nil
 }
 

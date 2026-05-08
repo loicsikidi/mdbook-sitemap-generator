@@ -30,4 +30,19 @@ go.work.sum
 # nix
 result
 
+# Build artifacts
 dist/
+
+# Dependency directories
+vendor/
+vendors/
+
+# pre-commit
+.pre-commit-config.yaml
+
+# IA assistants
+.claude/
+GOAL.md
+
+# direnv
+.direnv/

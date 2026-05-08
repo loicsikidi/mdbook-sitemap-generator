@@ -1,5 +1,11 @@
 # mdbook-sitemap-generator
 
+![go version](https://img.shields.io/github/go-mod/go-version/loicsikidi/mdbook-sitemap-generator)
+[![godoc](https://pkg.go.dev/badge/github.com/loicsikidi/mdbook-sitemap-generator/v1.svg)](https://pkg.go.dev/github.com/loicsikidi/mdbook-sitemap-generator)
+[![latest](https://img.shields.io/github/v/release/loicsikidi/mdbook-sitemap-generator)](https://github.com/loicsikidi/mdbook-sitemap-generator/releases)
+[![license](https://img.shields.io/badge/license-BSD--3--Clause-blue?style=flat-square)](https://raw.githubusercontent.com/loicsikidi/mdbook-sitemap-generator/main/LICENSE)
+
+
 > [!NOTE]
 > This project is a fork of the original [mdbook-sitemap-generator](https://github.com/rxdn/mdbook-sitemap-generator) which is no longer maintained.
 > Contrary to the original, this version is written in Golang.
@@ -87,6 +93,21 @@ $ mdbook-sitemap-generator --domain docs.example.com --output book/sitemap.xml
 
 > [!TIP]
 > The utility will automatically detect the book's root directory by parsing `book.toml` and fallback to `src` if it finds nothing.
+
+## Dependency Update Policy
+
+> [!NOTE]
+> For those interested in understanding the motivations behind this approach, I recommend reading [Filippo Valsorda's thoughts on Dependabot](https://words.filippo.io/dependabot/).
+
+This project does not rely on automated dependency update tools like Dependabot. When managing multiple projects in parallel, such tools generate more noise than value.
+
+Instead, this project follows a pragmatic, security-first approach:
+
+1. **`govulncheck` runs daily** to detect vulnerable dependencies. When a vulnerability is identified → we bump the affected dependency.
+2. **Feature-driven updates**: Dependencies are updated when the project needs a new feature provided by a newer version.
+3. **`go test` runs daily** with the latest dependency versions to detect breaking changes early.
+
+This approach balances security with intentionality, ensuring updates happen for concrete reasons rather than on autopilot.
 
 ## License
 

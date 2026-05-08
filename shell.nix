@@ -1,9 +1,9 @@
 let
-  # golang pinned to 1.24.0
+  # golang pinned to 1.25.0
   nixpkgs =
     fetchTarball
     # go to https://www.nixhub.io/packages/go to the list of available versions
-    "https://github.com/NixOS/nixpkgs/archive/2d068ae5c6516b2d04562de50a58c682540de9bf.tar.gz";
+    "https://github.com/NixOS/nixpkgs/archive/f4b140d5b253f5e2a1ff4e5506edbf8267724bde.tar.gz";
   pkgs = import nixpkgs {
     config = {};
     overlays = [];

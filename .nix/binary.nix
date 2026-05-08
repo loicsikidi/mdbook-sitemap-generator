@@ -1,6 +1,6 @@
 {pkgs}:
-pkgs.buildGo124Module rec {
+pkgs.buildGoModule {
   name = "mdbook-sitemap-generator";
   src = pkgs.lib.cleanSource ../.;
-  vendorHash = "sha256-cEgvwog50izBOyMlCdLI2KvwSHPKZsp1wSw6a59V1yw=";
+  vendorHash = "sha256-5uDi/9YlUNRDQKFROlN8sLvLRFFOvZvZHcmR6fARG5Q=";
 }

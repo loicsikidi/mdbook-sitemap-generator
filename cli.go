@@ -11,7 +11,7 @@ import (
 
 	"github.com/BurntSushi/toml"
 	"github.com/imjasonh/version"
-	mdbook "github.com/loicsikidi/mdbook-plugin"
+	mdbook "github.com/ngyewch/mdbook-plugin"
 )
 
 type mode string

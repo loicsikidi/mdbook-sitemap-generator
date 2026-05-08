@@ -11,7 +11,8 @@ jobs:
   release:
     runs-on: ubuntu-latest
     permissions:
-      contents: write        # publish release
+      contents: write # publish release
+      id-token: write # needed for keyless signing
     steps:
       - name: Checkout code
         uses: actions/checkout@1af3b93b6815bc44a9784bd300feb67ff0d1eeb3 # v6.0.0

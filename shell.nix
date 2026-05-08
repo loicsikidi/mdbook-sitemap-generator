@@ -2,26 +2,33 @@ let
   # golang pinned to 1.24.0
   nixpkgs =
     fetchTarball
+    # go to https://www.nixhub.io/packages/go to the list of available versions
     "https://github.com/NixOS/nixpkgs/archive/2d068ae5c6516b2d04562de50a58c682540de9bf.tar.gz";
   pkgs = import nixpkgs {
     config = {};
     overlays = [];
   };
-  pre-commit = pkgs.callPackage ./.nix/precommit.nix {};
+  helpers = import (builtins.fetchTarball
+    "https://github.com/loicsikidi/nix-shell-toolbox/tarball/main") {
+    inherit pkgs;
+    hooksConfig = {
+      treefmt.enable = true;
+      gofmt.enable = false;
+      gotest.settings.flags = "-race";
+    };
+  };
 in
-  pkgs.mkShellNoCC {
+  pkgs.mkShell {
+    buildInputs = helpers.packages;
+
     shellHook = ''
-      ${pre-commit.shellHook}
+      ${helpers.shellHook}
+      echo "Development environment ready!"
+      echo "  - Go version: $(go version)"
     '';
-    buildInputs = pre-commit.enabledPackages;
 
-    packages = with pkgs; [
-      go # v1.24.0
-      delve
-
-      # Required to run tests with -race flag
-      gcc # 14.3.0
-    ];
+    # to enable debugging with delve
+    hardeningDisable = ["fortify"];
 
     env = {
       # Required to run tests with -race flag

@@ -7,11 +7,47 @@ release:
     owner: loicsikidi
     name: mdbook-sitemap-generator
   name_template: '{{.Tag}}'
-  footer: >-
+  header: |
+    ## {{ .ProjectName }} {{ .Tag }}
 
-    ---
+    ### What's Changed
 
-    Released by [GoReleaser](https://github.com/goreleaser/goreleaser) .
+    This release contains the `mdbook-sitemap-generator` binary and OCI images built from commit [{{ .FullCommit }}](https://github.com/loicsikidi/{{ .ProjectName }}/tree/{{ .FullCommit }}).
+
+    ### Artifacts
+
+    - **`mdbook-sitemap-generator_$VERSION_$OS_$ARCH.$EXTENSION`** - CLI binaries for various platforms (stored in archives)
+    - **`mdbook-sitemap-generator_$VERSION_$OS_$ARCH.sbom.json`** - SBOMs for the binaries in SPDX format
+    - **`checksums.txt`** - SHA-256 checksums of all artifacts
+    - **`checksums.txt.sigstore.json`** - Sigstore signature bundle for checksum verification
+
+    ### Verification
+
+    > [!IMPORTANT]
+    > If you are not familiar with the concepts around software supply chain security,
+    > (eg. build provenance attestation, keyless signature, etc.), please read the following resources first:
+    > - [Cosign Signing Overview](https://docs.sigstore.dev/cosign/signing/overview/)
+    > - [SLSA provenance attestation](https://slsa.dev/spec/v1.2/provenance)
+    > - [GitHub attest-build-provenance action](https://github.com/actions/attest-build-provenance)
+
+    In order to ensure that the release artifacts are secure and have not been tampered with, follow this one-step process:
+
+    > [!TIP]
+    > Make sure to use **`cosign >= v2.4.3`** to support the [Sigstore bundle format](https://docs.sigstore.dev/about/bundle/).
+
+    ```bash
+    # Verify the checksums signature
+    cosign verify-blob \
+      --bundle checksums.txt.sigstore.json \
+      --certificate-identity-regexp 'https://github.com/loicsikidi/{{ .ProjectName }}/.github/workflows/release.yaml@refs/tags/{{ .Tag }}' \
+      --certificate-oidc-issuer https://token.actions.githubusercontent.com \
+      checksums.txt
+
+    # Verify any artifact matches the checksum
+    sha256sum -c checksums.txt
+    ```
+  footer: |
+    **Generated with GoReleaser 🚀**
 
 changelog:
   sort: asc
@@ -37,7 +73,7 @@ sboms:
     env:
       - SYFT_FILE_METADATA_CATALOGER_ENABLED=true
     documents:
-      - '{{ .ProjectName }}_{{ .Version }}_{{ .Os }}_{{ .Arch }}{{ with .Arm }}v{{ . }}{{ end }}{{ with .Mips }}_{{ . }}{{ end }}{{ if not (eq .Amd64 "v1") }}{{ .Amd64 }}{{ end }}.spdx.sbom'
+      - '{{ .ProjectName }}_{{ .Version }}_{{ .Os }}_{{ .Arch }}{{ with .Arm }}v{{ . }}{{ end }}{{ with .Mips }}_{{ . }}{{ end }}{{ if not (eq .Amd64 "v1") }}{{ .Amd64 }}{{ end }}.sbom.json'
     artifacts: binary
     args:
       - $artifact
@@ -64,7 +100,7 @@ snapshot:
   version_template: '{{ .Version }}'
 
 checksum:
-  name_template: '{{ .ProjectName }}_{{ .Version }}_checksums.txt'
+  name_template: "checksums.txt"
   algorithm: sha256
 
 signs:
